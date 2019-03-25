@@ -1,7 +1,7 @@
 import React from 'react';
 import Comment from './Comment.js';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import * as moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
@@ -35,10 +35,30 @@ font-size: 0.7rem;
 margin: 5px 0
 `;
 
+const likeKeyframe = keyframes`
+0% {
+  fill: black;
+  transform: scale(1.0);
+}
+60% {
+  transform: scale(1.2);
+}
+100% {
+  fill: red;
+  transform: scale(1.0);
+}
+`;
+
 const IconsDiv = styled.div`
 margin-bottom: 10px;
 svg:first-child {
   margin-right: 20px;
+}
+svg.liked {
+  animation: ${likeKeyframe} 0.3s ease-in-out;
+  path {
+    fill: red;
+  }
 }
 `;
 
@@ -47,7 +67,9 @@ const CommentSection = ({comments, likes, liked, timestamp, postidx, addComment,
   return (
     <CommentDiv>
       <IconsDiv>
-        <FontAwesomeIcon icon={liked ? faHeartSolid : faHeart} size="2x"
+        <FontAwesomeIcon icon={liked ? faHeartSolid : faHeart}
+                         className={liked ? "liked" : ""}
+                         size="2x"
                          onClick={() => handleLike(postidx)} />
         <FontAwesomeIcon icon={faComment}
                          size="2x"
