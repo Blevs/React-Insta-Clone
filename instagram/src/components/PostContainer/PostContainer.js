@@ -17,7 +17,8 @@ box-shadow: 0 0 3px lightgrey;
 margin: 50px 0;
 `;
 
-const PostContainer = ({username, thumbnailUrl, imageUrl, likes, timestamp, comments}) => {
+const PostContainer = ({username, thumbnailUrl, imageUrl, likes,
+                        timestamp, comments, postidx, addComment}) => {
     return (
         <PostDiv>
           <PostHeader username={username}
@@ -25,7 +26,9 @@ const PostContainer = ({username, thumbnailUrl, imageUrl, likes, timestamp, comm
           <Post imageUrl={imageUrl} />
           <CommentSection comments={comments}
                           likes={likes}
-                          timestamp={timestamp} />
+                          timestamp={timestamp}
+                          postidx={postidx}
+                          addComment={addComment} />
         </PostDiv>
     );
 };
@@ -36,6 +39,8 @@ PostContainer.propTypes = {
     imageUrl: PropTypes.string.isRequired,
     likes: PropTypes.number.isRequired,
     timestamp: PropTypes.string.isRequired,
+    postidx: PropTypes.number.isRequired,
+    addComment: PropTypes.func.isRequired,
     comments: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         username: PropTypes.string.isRequired,

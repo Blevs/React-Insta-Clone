@@ -24,7 +24,7 @@ font-size: 1.0rem;
 font-weight: bold;
 `;
 
-const CommentSection = ({comments, likes, timestamp}) => {
+const CommentSection = ({comments, likes, timestamp, postidx, addComment}) => {
     return (
         <CommentDiv>
           <div>
@@ -40,8 +40,11 @@ const CommentSection = ({comments, likes, timestamp}) => {
           <div>
             {timestamp}
           </div>
-          <CommentInput type="text"
-                        placeholder="Add a comment..." />
+          <form onSubmit={event => addComment(event, postidx)}>
+            <CommentInput type="text"
+                          name="comment"
+                          placeholder="Add a comment..." />
+          </form>
         </CommentDiv>
     );
 };
@@ -49,6 +52,8 @@ const CommentSection = ({comments, likes, timestamp}) => {
 CommentSection.propTypes = {
     likes: PropTypes.number.isRequired,
     timestamp: PropTypes.string.isRequired,
+    postidx: PropTypes.number.isRequired,
+    addComment: PropTypes.func.isRequired,
     comments: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         username: PropTypes.string.isRequired,

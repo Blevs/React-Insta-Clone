@@ -18,16 +18,32 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: dummyData
+      posts: dummyData,
+      username: "blevs"
     };
   }
+  addComment = (event, postidx) => {
+    event.preventDefault();
+    const value = event.target.comment.value;
+    if (!value.match(/^\s*$/)) {
+      event.target.comment.value = "";
+      this.setState(({username, posts}) => {
+        posts[postidx].comments.push({
+          id: Date.now().toString(),
+          username: username,
+          text: value
+        });
+        return {posts: posts};
+      });
+    }
+  };
   render() {
     return (
       <div className="App">
         <SearchBar />
         <Posts>
-          {this.state.posts.map(post => (
-            <PostContainer {...post} key={post.id} />
+          {this.state.posts.map((post, idx) => (
+            <PostContainer {...post} postidx={idx} key={post.id} addComment={this.addComment}/>
           ))}
         </Posts>
       </div>
