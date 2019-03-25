@@ -11,7 +11,8 @@ width: 100%;
 padding: 0 10px;
 height: 75px;
 border-bottom: 1px solid lightgrey;
-position: fixed;
+position: sticky;
+top: 0;
 background: white;
 img:first-child {
   padding-right: 10px;

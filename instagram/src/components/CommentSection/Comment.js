@@ -1,12 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const CommentDiv = styled.div`
+margin: 5px 0;
+`;
+
+const Username = styled.span`
+font-weight: bold;
+margin-right: 5px;
+`;
 
 const Comment = ({username, text}) => {
     return (
-        <div>
-          <div>{username}</div>
-          <div>{text}</div>
-        </div>
+        <CommentDiv>
+          <Username>{username}</Username>
+          {text}
+        </CommentDiv>
     );
 };
 
