@@ -2,6 +2,7 @@ import React from 'react';
 import Comment from './Comment.js';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import * as moment from 'moment';
 
 const CommentDiv = styled.div`
 padding: 15px 20px 0 20px;
@@ -17,11 +18,18 @@ width: 100%;
 box-sizing: border-box;
 border: none;
 border-top: 1px solid lightgrey;
-margin-top: 10px;
+margin-top: 5px;
 margin-bottom: 0;
 padding: 20px 0;
 font-size: 1.0rem;
 font-weight: bold;
+`;
+
+const Time = styled.div`
+color: grey;
+text-transform: uppercase;
+font-size: 0.7rem;
+margin: 5px 0
 `;
 
 const CommentSection = ({comments, likes, timestamp, postidx, addComment}) => {
@@ -37,9 +45,9 @@ const CommentSection = ({comments, likes, timestamp, postidx, addComment}) => {
           {comments.map(comment => (
               <Comment {...comment} key={comment.id}/>
           ))}
-          <div>
-            {timestamp}
-          </div>
+          <Time>
+            {moment(timestamp, 'MMMM Do YYYY, HH:mm:ss a').fromNow()}
+          </Time>
           <form onSubmit={event => addComment(event, postidx)}>
             <CommentInput type="text"
                           name="comment"
