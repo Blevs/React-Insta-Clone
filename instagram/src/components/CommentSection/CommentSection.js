@@ -37,14 +37,12 @@ margin: 5px 0
 
 const likeKeyframe = keyframes`
 0% {
-  fill: black;
   transform: scale(1.0);
 }
 60% {
-  transform: scale(1.2);
+  transform: scale(1.3);
 }
 100% {
-  fill: red;
   transform: scale(1.0);
 }
 `;
@@ -55,7 +53,7 @@ svg:first-child {
   margin-right: 20px;
 }
 svg.liked {
-  animation: ${likeKeyframe} 0.3s ease-in-out;
+  animation: ${likeKeyframe} 0.25s ease-out;
   path {
     fill: red;
   }
