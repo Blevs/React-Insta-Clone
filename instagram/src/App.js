@@ -17,11 +17,25 @@ background: #fafafa;
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      posts: dummyData,
-      username: "blevs"
-    };
+    this.localStorageKey = "instaclone";
+    this.state = {};
   }
+  componentDidMount() {
+    // initialize data
+    this.setState(
+      JSON.parse(window.localStorage.getItem(this.localStorageKey))
+      || {
+        posts: dummyData,
+        username: "blevs",
+      }
+    );
+    // refresh and leave update local storage
+    window.addEventListener(
+      "beforeunload",
+      () => window.localStorage.setItem(this.localStorageKey, JSON.stringify(this.state))
+    );
+  }
+
   addComment = (event, postidx) => {
     event.preventDefault();
     const value = event.target.comment.value;
@@ -47,11 +61,12 @@ class App extends Component {
     });
   }
   render() {
+    console.log(this.state);
     return (
       <div className="App">
         <SearchBar />
         <Posts>
-          {this.state.posts.map((post, idx) => (
+          {this.state.posts && this.state.posts.map((post, idx) => (
             <PostContainer {...post}
                            postidx={idx}
                            key={post.id}
