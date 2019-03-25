@@ -1,5 +1,6 @@
 import React from 'react';
 import Comment from './Comment.js';
+import PropTypes from 'prop-types';
 
 const CommentSection = ({comments, likes, timestamp}) => {
     return (
@@ -21,6 +22,16 @@ const CommentSection = ({comments, likes, timestamp}) => {
                  placeholder="Add a comment..." />
         </div>
     );
+};
+
+CommentSection.propTypes = {
+    likes: PropTypes.number.isRequired,
+    timestamp: PropTypes.string.isRequired,
+    comments: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired
+    }))
 };
 
 export default CommentSection;
