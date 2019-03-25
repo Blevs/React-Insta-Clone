@@ -6,7 +6,8 @@ import Post from './Post.js';
 const PostContainer = ({username, thumbnailUrl, imageUrl, likes, timestamp, comments}) => {
     return (
         <div>
-          <PostHeader username={username} />
+          <PostHeader username={username}
+                      thumbnailUrl={thumbnailUrl}/>
           <Post imageUrl={imageUrl} />
           <CommentSection comments={comments}
                           likes={likes}
