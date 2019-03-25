@@ -37,13 +37,26 @@ class App extends Component {
       });
     }
   };
+  handleLike = (postidx) => {
+    this.setState(({posts}) => {
+      posts[postidx].likes += posts[postidx].liked ? -1 : 1;
+      posts[postidx].liked = !posts[postidx].liked;
+      return {
+        posts: posts
+      };
+    });
+  }
   render() {
     return (
       <div className="App">
         <SearchBar />
         <Posts>
           {this.state.posts.map((post, idx) => (
-            <PostContainer {...post} postidx={idx} key={post.id} addComment={this.addComment}/>
+            <PostContainer {...post}
+                           postidx={idx}
+                           key={post.id}
+                           addComment={this.addComment}
+                           handleLike={this.handleLike} />
           ))}
         </Posts>
       </div>

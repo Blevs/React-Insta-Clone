@@ -17,35 +17,40 @@ box-shadow: 0 0 3px lightgrey;
 margin: 50px 0;
 `;
 
-const PostContainer = ({username, thumbnailUrl, imageUrl, likes,
-                        timestamp, comments, postidx, addComment}) => {
-    return (
-        <PostDiv>
-          <PostHeader username={username}
-                      thumbnailUrl={thumbnailUrl}/>
-          <Post imageUrl={imageUrl} />
-          <CommentSection comments={comments}
-                          likes={likes}
-                          timestamp={timestamp}
-                          postidx={postidx}
-                          addComment={addComment} />
-        </PostDiv>
-    );
+const PostContainer = ({
+  username, thumbnailUrl, imageUrl, likes, liked, timestamp, comments, postidx, addComment, handleLike
+}) => {
+  return (
+    <PostDiv>
+      <PostHeader username={username}
+                  thumbnailUrl={thumbnailUrl}/>
+      <Post imageUrl={imageUrl} />
+      <CommentSection comments={comments}
+                      likes={likes}
+                      liked={liked}
+                      timestamp={timestamp}
+                      postidx={postidx}
+                      addComment={addComment}
+                      handleLike={handleLike} />
+    </PostDiv>
+  );
 };
 
 PostContainer.propTypes = {
+  username: PropTypes.string.isRequired,
+  thumbnailUrl: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+  likes: PropTypes.number.isRequired,
+  liked: PropTypes.bool,
+  timestamp: PropTypes.string.isRequired,
+  postidx: PropTypes.number.isRequired,
+  addComment: PropTypes.func.isRequired,
+  handleLike: PropTypes.func.isRequired,
+  comments: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
-    thumbnailUrl: PropTypes.string.isRequired,
-    imageUrl: PropTypes.string.isRequired,
-    likes: PropTypes.number.isRequired,
-    timestamp: PropTypes.string.isRequired,
-    postidx: PropTypes.number.isRequired,
-    addComment: PropTypes.func.isRequired,
-    comments: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        username: PropTypes.string.isRequired,
-        text: PropTypes.string.isRequired
-    }))
+    text: PropTypes.string.isRequired
+  }))
 };
 
 export default PostContainer;

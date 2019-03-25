@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import * as moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
+import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 
 const CommentDiv = styled.div`
 padding: 15px 20px 0 20px;
@@ -41,12 +42,13 @@ svg:first-child {
 }
 `;
 
-const CommentSection = ({comments, likes, timestamp, postidx, addComment}) => {
+const CommentSection = ({comments, likes, liked, timestamp, postidx, addComment, handleLike}) => {
   let commentInput = null;
   return (
     <CommentDiv>
       <IconsDiv>
-        <FontAwesomeIcon icon={faHeart} size="2x" />
+        <FontAwesomeIcon icon={liked ? faHeartSolid : faHeart} size="2x"
+                         onClick={() => handleLike(postidx)} />
         <FontAwesomeIcon icon={faComment}
                          size="2x"
                          onClick={() => commentInput && commentInput.focus()} />
@@ -72,9 +74,11 @@ const CommentSection = ({comments, likes, timestamp, postidx, addComment}) => {
 
 CommentSection.propTypes = {
   likes: PropTypes.number.isRequired,
+  liked: PropTypes.bool,
   timestamp: PropTypes.string.isRequired,
   postidx: PropTypes.number.isRequired,
   addComment: PropTypes.func.isRequired,
+  handleLike: PropTypes.func.isRequired,
   comments: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
