@@ -1,5 +1,8 @@
 import React from "react";
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCompass, faHeart, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 
 const StyledHeader = styled.header`
 box-sizing: border-box;
@@ -14,9 +17,12 @@ border-bottom: 1px solid lightgrey;
 position: sticky;
 top: 0;
 background: white;
-img:first-child {
+svg {
+margin: 0 10px;
+}
+.logo svg:first-child {
   padding-right: 10px;
-  margin-right: 10px;
+  margin-left: 0;
   border-right: 1px solid black;
 }
 `;
@@ -37,16 +43,16 @@ padding: 3px 10px;
 const SearchBar = (props) => {
     return (
         <StyledHeader>
-          <div>
-            <img alt="logo"/>
-            <img alt="instagram"/>
+          <div className="logo">
+            <FontAwesomeIcon icon={faInstagram} size="2x" />
+            <img alt="Instagram"/>
           </div>
           <StyledInput type="text"
                  placeholder="Search" />
           <div>
-            <a href="/">D</a>
-            <a href="/">L</a>
-            <a href="/">P</a>
+            <FontAwesomeIcon icon={faCompass} size="2x" />
+            <FontAwesomeIcon icon={faHeart} size="2x" />
+            <FontAwesomeIcon icon={faUser} size="2x" />
           </div>
         </StyledHeader>
     );
