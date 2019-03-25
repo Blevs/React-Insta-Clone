@@ -15,13 +15,19 @@ background: #fafafa;
 `;
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      posts: dummyData
+    };
+  }
   render() {
     return (
       <div className="App">
-            <SearchBar />
+        <SearchBar />
         <Posts>
-          {dummyData.map(post => (
-              <PostContainer {...post} key={post.id} />
+          {this.state.posts.map(post => (
+            <PostContainer {...post} key={post.id} />
           ))}
         </Posts>
       </div>
