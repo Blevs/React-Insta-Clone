@@ -4,7 +4,8 @@ import styled from 'styled-components';
 
 const PostDiv = styled.div`
 width: 100%;
-height: 500px;
+height: 75vw;
+max-height: 500px;
 overflow: hidden;
 `;
 
