@@ -12,6 +12,12 @@ align-items: center;
 padding: 0 5%;
 box-sizing: border-box;
 background: #fafafa;
+min-height: 90vh;
+`;
+
+const NoMatches = styled.h2`
+width: 100%;
+text-align: center;
 `;
 
 class App extends Component {
@@ -82,23 +88,24 @@ class App extends Component {
     });
   }
   render() {
+    const filteredPosts = this.state.posts
+          .filter(post => post.username.toLowerCase().includes(this.state.filter.toLowerCase()));
     return (
       <div className="App">
         <SearchBar search={this.state.search}
                    handleInput={this.handleInput}
                    handleSearch={this.handleSearchSubmit} />
         <Posts>
-          {this.state.posts
-           .filter(post => post.username.toLowerCase().includes(this.state.filter.toLowerCase()))
-           .map((post, idx) => (
+          {filteredPosts.length === 0
+           ? <NoMatches>Nothing matches your search:<br />'{this.state.filter}'</NoMatches>
+           : filteredPosts.map((post, idx) => (
              <PostContainer {...post}
                             postidx={idx}
                             key={post.id}
                             addComment={this.addComment}
                             handleLike={this.handleLike}
                             currentUser={this.state.username}
-                            deleteComment={this.deleteComment} />
-           ))}
+                            deleteComment={this.deleteComment} />))}
         </Posts>
       </div>
     );
