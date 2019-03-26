@@ -24,7 +24,6 @@ text-align: center;
 class PostsPage extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.username = props.username;
     this.handleLogout = props.handleLogout;
     this.localStorageKey = "instaPostsPage";

@@ -33,7 +33,6 @@ const withAuthenticate = ProtectedComponent => LoginComponent => {
     };
     componentDidMount() {
       const username = JSON.parse(window.localStorage.getItem(this.localUsernameKey));
-      console.log("storage", username);
       this.setState({
         loggedIn: Boolean(username),
         username: username
