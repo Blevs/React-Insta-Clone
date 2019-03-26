@@ -3,6 +3,7 @@ import SearchBar from './components/SearchBar';
 import PostContainer from './components/PostContainer';
 import dummyData from './dummy-data.js';
 import styled from 'styled-components';
+import Fuse from 'fuse.js';
 
 const Posts = styled.div`
 display: flex;
@@ -88,8 +89,12 @@ class App extends Component {
     });
   }
   render() {
-    const filteredPosts = this.state.posts
-          .filter(post => post.username.toLowerCase().includes(this.state.filter.toLowerCase()));
+    // const filteredPosts = this.state.posts
+    //       .filter(post => post.username.toLowerCase().includes(this.state.filter.toLowerCase()));
+    const filteredPosts = (this.state.filter === ''
+                           ? this.state.posts
+                           : (new Fuse(this.state.posts, {keys: ['username']}))
+                           .search(this.state.filter));
     return (
       <div className="App">
         <SearchBar search={this.state.search}

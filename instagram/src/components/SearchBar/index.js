@@ -56,6 +56,28 @@ box-sizing: border-box;
 }
 `;
 
+const Clear = styled.div`
+position: absolute;
+right: 3px;
+top: 15%;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+color: #fafafa;
+background: #AAAAAA;
+border: none;
+border-radius: 100%;
+height: 20px;
+width: 20px;
+text-align: center;
+cursor: pointer;
+transition: background 0.3s;
+user-select: none;
+&:hover, &:active {
+  background: grey;
+}
+`;
+
 const SearchBar = ({search, handleInput, handleSearch}) => {
   return (
     <StyledHeader>
@@ -63,12 +85,20 @@ const SearchBar = ({search, handleInput, handleSearch}) => {
         <FontAwesomeIcon icon={faInstagram} size="2x" />
         <img alt="Instagram"/>
       </div>
-      <form onSubmit={handleSearch}>
+      <form onSubmit={handleSearch} style={{position: "relative"}}>
         <StyledInput type="text"
                      name="search"
                      value={search}
                      onChange={handleInput}
                      placeholder="Search" />
+        {search !== ""
+         &&
+         <Clear onClick={event => {
+           handleInput({...event, target: {value: "", name: "search"}});
+           handleSearch(event);
+         }}>
+           &times;
+         </Clear>}
       </form>
       <div className="nav-icons">
         <FontAwesomeIcon icon={faCompass} size="2x" />
