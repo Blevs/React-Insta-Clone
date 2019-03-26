@@ -14,9 +14,11 @@ position: relative;
   font-size: 1.8rem;
   color: red;
   cursor: pointer;
+  transition-delay: 0.3s;
 }
 &:hover .delete {
   opacity: 1;
+  transition-delay: 0s;
 }
 `;
 
