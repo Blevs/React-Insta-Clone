@@ -18,7 +18,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.localStorageKey = "instaclone";
-    this.state = {};
+    this.state = {
+      posts: [],
+      username: "blevs"
+    };
   }
   componentDidMount() {
     // initialize data
@@ -27,6 +30,8 @@ class App extends Component {
       || {
         posts: dummyData,
         username: "blevs",
+        search: "",
+        filter: ""
       }
     );
     // refresh and leave update local storage
@@ -35,7 +40,17 @@ class App extends Component {
       () => window.localStorage.setItem(this.localStorageKey, JSON.stringify(this.state))
     );
   }
-
+  handleInput = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+  handleSearchSubmit = (event) => {
+    event.preventDefault();
+    this.setState(prevState => ({
+      filter: prevState.search.trim()
+    }));
+  };
   addComment = (event, postidx) => {
     event.preventDefault();
     const value = event.target.comment.value;
@@ -69,17 +84,21 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <SearchBar />
+        <SearchBar search={this.state.search}
+                   handleInput={this.handleInput}
+                   handleSearch={this.handleSearchSubmit} />
         <Posts>
-          {this.state.posts && this.state.posts.map((post, idx) => (
-            <PostContainer {...post}
-                           postidx={idx}
-                           key={post.id}
-                           addComment={this.addComment}
-                           handleLike={this.handleLike}
-                           currentUser={this.state.username}
-                           deleteComment={this.deleteComment} />
-          ))}
+          {this.state.posts
+           .filter(post => post.username.toLowerCase().includes(this.state.filter.toLowerCase()))
+           .map((post, idx) => (
+             <PostContainer {...post}
+                            postidx={idx}
+                            key={post.id}
+                            addComment={this.addComment}
+                            handleLike={this.handleLike}
+                            currentUser={this.state.username}
+                            deleteComment={this.deleteComment} />
+           ))}
         </Posts>
       </div>
     );

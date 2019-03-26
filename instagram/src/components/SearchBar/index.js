@@ -1,5 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompass, faHeart, faUser } from '@fortawesome/free-regular-svg-icons';
 import { faInstagram } from '@fortawesome/free-brands-svg-icons';
@@ -41,22 +42,37 @@ padding: 3px 10px;
 }
 `;
 
-const SearchBar = (props) => {
-    return (
-        <StyledHeader>
-          <div className="logo">
-            <FontAwesomeIcon icon={faInstagram} size="2x" />
-            <img alt="Instagram"/>
-          </div>
-          <StyledInput type="text"
-                 placeholder="Search" />
-          <div>
-            <FontAwesomeIcon icon={faCompass} size="2x" />
-            <FontAwesomeIcon icon={faHeart} size="2x" />
-            <FontAwesomeIcon icon={faUser} size="2x" />
-          </div>
-        </StyledHeader>
-    );
+const SearchBar = ({search, handleInput, handleSearch}) => {
+  return (
+    <StyledHeader>
+      <div className="logo">
+        <FontAwesomeIcon icon={faInstagram} size="2x" />
+        <img alt="Instagram"/>
+      </div>
+      <form onSubmit={handleSearch}>
+        <StyledInput type="text"
+                     name="search"
+                     value={search}
+                     onChange={handleInput}
+                     placeholder="Search" />
+      </form>
+      <div>
+        <FontAwesomeIcon icon={faCompass} size="2x" />
+        <FontAwesomeIcon icon={faHeart} size="2x" />
+        <FontAwesomeIcon icon={faUser} size="2x" />
+      </div>
+    </StyledHeader>
+  );
+};
+
+SearchBar.defaultProps = {
+  search: "",
+};
+
+SearchBar.propTypes = {
+  search: PropTypes.string.isRequired,
+  handleInput: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired
 };
 
 export default SearchBar;
