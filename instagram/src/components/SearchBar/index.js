@@ -19,8 +19,19 @@ position: sticky;
 z-index: 5;
 top: 0;
 background: white;
+.nav-icons {
+  display: flex;
+}
 svg {
-margin: 0 10px;
+  margin: 0 10px;
+  @media (max-width: 600px) {
+    margin: 0 3px;
+  }
+}
+img {
+  @media (max-width: 600px) {
+    display: none;
+  }
 }
 .logo svg:first-child {
   padding-right: 10px;
@@ -36,6 +47,9 @@ border: 1px solid lightgrey;
 border-radius: 3px;
 font-size: 16px;
 padding: 3px 10px;
+width: 100%;
+max-width: 300px;
+box-sizing: border-box;
 &:focus {
   text-align: left;
   background: white;
@@ -56,7 +70,7 @@ const SearchBar = ({search, handleInput, handleSearch}) => {
                      onChange={handleInput}
                      placeholder="Search" />
       </form>
-      <div>
+      <div className="nav-icons">
         <FontAwesomeIcon icon={faCompass} size="2x" />
         <FontAwesomeIcon icon={faHeart} size="2x" />
         <FontAwesomeIcon icon={faUser} size="2x" />
