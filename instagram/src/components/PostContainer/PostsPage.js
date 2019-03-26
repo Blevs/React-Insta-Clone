@@ -29,25 +29,42 @@ class PostsPage extends React.Component {
     this.localStorageKey = "instaPostsPage";
     this.state = {
       posts: [],
+      likedMap: {},
       search: "",
       filter: ""
     };
   }
   componentDidMount() {
     // initialize data
-    this.setState(
-      JSON.parse(window.localStorage.getItem(this.localStorageKey))
-      || {
-        posts: dummyData,
-        search: "",
-        filter: ""
-      }
-    );
+    const commonState =
+          JSON.parse(window.localStorage.getItem(this.localStorageKey))
+          || {
+            posts: dummyData,
+            search: "",
+            filter: ""
+          };
+    const likedMap = JSON.parse(window.localStorage.getItem(this.username + "LikedMap"))
+          || {};
+    this.setState({
+      ...commonState,
+      likedMap: likedMap
+    });
     // refresh and leave update local storage
     window.addEventListener(
       "beforeunload",
-      () => window.localStorage.setItem(this.localStorageKey, JSON.stringify(this.state))
+      () => {
+        window.localStorage.setItem(this.username + "LikedMap",
+                                    JSON.stringify(this.state.likedMap));
+        window.localStorage.setItem(this.localStorageKey,
+                                    JSON.stringify({...this.state, likedMap: null}));
+      }
     );
+  }
+  componentWillUnmount() {
+    window.localStorage.setItem(this.username + "LikedMap",
+                                JSON.stringify(this.state.likedMap));
+    window.localStorage.setItem(this.localStorageKey,
+                                JSON.stringify({...this.state, likedMap: null}));
   }
   handleInput = (event) => {
     this.setState({
@@ -82,11 +99,12 @@ class PostsPage extends React.Component {
     });
   }
   handleLike = (postidx) => {
-    this.setState(({posts}) => {
-      posts[postidx].likes += posts[postidx].liked ? -1 : 1;
-      posts[postidx].liked = !posts[postidx].liked;
+    this.setState(({posts, likedMap}) => {
+      posts[postidx].likes += likedMap[postidx] ? -1 : 1;
+      likedMap[postidx] = !likedMap[postidx];
       return {
-        posts: posts
+        posts: posts,
+        likedMap: likedMap
       };
     });
   }
@@ -108,8 +126,9 @@ class PostsPage extends React.Component {
            ? <NoMatches>Nothing matches your search:<br />'{this.state.filter}'</NoMatches>
            : filteredPosts.map((post, idx) => (
              <PostContainer {...post}
-                            postidx={idx}
                             key={post.id}
+                            postidx={idx}
+                            liked={this.state.likedMap[idx]}
                             addComment={this.addComment}
                             handleLike={this.handleLike}
                             currentUser={this.username}

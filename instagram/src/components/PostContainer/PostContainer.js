@@ -18,9 +18,8 @@ margin: 50px 0;
 `;
 
 const PostContainer = ({
-  username, thumbnailUrl, imageUrl, likes, liked,
-  timestamp, comments, postidx, addComment, handleLike,
-  currentUser, deleteComment
+  username, thumbnailUrl, imageUrl, likes, liked, timestamp, comments, postidx,
+  addComment, handleLike, currentUser, deleteComment
 }) => {
   return (
     <PostDiv>
