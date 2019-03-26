@@ -60,7 +60,9 @@ svg.liked {
 }
 `;
 
-const CommentSection = ({comments, likes, liked, timestamp, postidx, addComment, handleLike}) => {
+const CommentSection = (
+  {comments, likes, liked, timestamp, postidx, addComment, handleLike, currentUser, deleteComment}
+) => {
   let commentInput = null;
   return (
     <CommentDiv>
@@ -76,8 +78,13 @@ const CommentSection = ({comments, likes, liked, timestamp, postidx, addComment,
       <Likes>
         {likes} likes
       </Likes>
-      {comments.map(comment => (
-        <Comment {...comment} key={comment.id}/>
+      {comments.map((comment, commentidx) => (
+        <Comment {...comment}
+                 key={comment.id}
+                 postidx={postidx}
+                 commentidx={commentidx}
+                 deleteComment={deleteComment}
+                 currentUser={currentUser} />
       ))}
       <Time>
         {moment(timestamp, 'MMMM Do YYYY, HH:mm:ss a').fromNow()}
@@ -97,7 +104,9 @@ CommentSection.propTypes = {
   liked: PropTypes.bool,
   timestamp: PropTypes.string.isRequired,
   postidx: PropTypes.number.isRequired,
+  currentUser: PropTypes.string,
   addComment: PropTypes.func.isRequired,
+  deleteComment: PropTypes.func.isRequired,
   handleLike: PropTypes.func.isRequired,
   comments: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,

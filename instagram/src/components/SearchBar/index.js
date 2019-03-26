@@ -15,6 +15,7 @@ padding: 0 10px;
 height: 75px;
 border-bottom: 1px solid lightgrey;
 position: sticky;
+z-index: 5;
 top: 0;
 background: white;
 svg {

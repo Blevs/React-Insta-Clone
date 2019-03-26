@@ -51,6 +51,12 @@ class App extends Component {
       });
     }
   };
+  deleteComment = (postidx, commentidx) => {
+    this.setState(({posts}) => {
+      posts[postidx].comments.splice(commentidx, 1);
+      return {posts: posts};
+    });
+  }
   handleLike = (postidx) => {
     this.setState(({posts}) => {
       posts[postidx].likes += posts[postidx].liked ? -1 : 1;
@@ -71,7 +77,9 @@ class App extends Component {
                            postidx={idx}
                            key={post.id}
                            addComment={this.addComment}
-                           handleLike={this.handleLike} />
+                           handleLike={this.handleLike}
+                           currentUser={this.state.username}
+                           deleteComment={this.deleteComment} />
           ))}
         </Posts>
       </div>

@@ -18,7 +18,9 @@ margin: 50px 0;
 `;
 
 const PostContainer = ({
-  username, thumbnailUrl, imageUrl, likes, liked, timestamp, comments, postidx, addComment, handleLike
+  username, thumbnailUrl, imageUrl, likes, liked,
+  timestamp, comments, postidx, addComment, handleLike,
+  currentUser, deleteComment
 }) => {
   return (
     <PostDiv>
@@ -31,7 +33,9 @@ const PostContainer = ({
                       timestamp={timestamp}
                       postidx={postidx}
                       addComment={addComment}
-                      handleLike={handleLike} />
+                      handleLike={handleLike}
+                      currentUser={currentUser}
+                      deleteComment={deleteComment} />
     </PostDiv>
   );
 };
@@ -43,6 +47,8 @@ PostContainer.propTypes = {
   likes: PropTypes.number.isRequired,
   liked: PropTypes.bool,
   timestamp: PropTypes.string.isRequired,
+  currentUser: PropTypes.string,
+  deleteComment: PropTypes.func.isRequired,
   postidx: PropTypes.number.isRequired,
   addComment: PropTypes.func.isRequired,
   handleLike: PropTypes.func.isRequired,
