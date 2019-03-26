@@ -26,7 +26,10 @@ const PostContainer = ({
     <PostDiv>
       <PostHeader username={username}
                   thumbnailUrl={thumbnailUrl}/>
-      <Post imageUrl={imageUrl} />
+      <Post imageUrl={imageUrl}
+            postidx={postidx}
+            liked={liked}
+            handleLike={handleLike}/>
       <CommentSection comments={comments}
                       likes={likes}
                       liked={liked}
