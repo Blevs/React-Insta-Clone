@@ -49,12 +49,21 @@ const likeKeyframe = keyframes`
 
 const IconsDiv = styled.div`
 margin-bottom: 10px;
+svg {
+  cursor: pointer;
+  path {
+    transition: fill 0.3s;
+  }
+  &:hover path {
+    fill: #4A4A4A;
+  }
+}
 svg:first-child {
   margin-right: 20px;
 }
 svg.liked {
   animation: ${likeKeyframe} 0.25s ease-out;
-  path {
+  path, &:hover path {
     fill: red;
   }
 }
