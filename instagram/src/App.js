@@ -1,30 +1,16 @@
 import React, { Component } from 'react';
 import { PostsPage } from './components/PostContainer';
+import { withAuthenticate } from './authentication';
+import LoginPage from './components/LoginPage';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.localStorageKey = "instaRoot";
-    this.state = {
-      username: "blevs"
-    };
-  }
-  componentDidMount() {
-    // initialize data
-    this.setState(
-      JSON.parse(window.localStorage.getItem(this.localStorageKey))
-      || {
-        username: "blevs"
-      }
-    );
-    // refresh and leave update local storage
-    window.addEventListener(
-      "beforeunload",
-      () => window.localStorage.setItem(this.localStorageKey, JSON.stringify(this.state))
-    );
   }
   render() {
-    return <PostsPage username={this.state.username} />;
+    const AuthedPostsPage = withAuthenticate(PostsPage)(LoginPage);
+    return <AuthedPostsPage />;
+    // return <PostsPage username={this.state.username} />;
   }
 }
 

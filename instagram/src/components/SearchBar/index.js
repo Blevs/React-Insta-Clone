@@ -78,7 +78,7 @@ user-select: none;
 }
 `;
 
-const SearchBar = ({search, handleInput, handleSearch}) => {
+const SearchBar = ({search, handleInput, handleSearch, handleLogout}) => {
   return (
     <StyledHeader>
       <div className="logo">
@@ -103,7 +103,7 @@ const SearchBar = ({search, handleInput, handleSearch}) => {
       <div className="nav-icons">
         <FontAwesomeIcon icon={faCompass} size="2x" />
         <FontAwesomeIcon icon={faHeart} size="2x" />
-        <FontAwesomeIcon icon={faUser} size="2x" />
+    <FontAwesomeIcon icon={faUser} size="2x" onClick={handleLogout} style={{cursor: "pointer"}}/>
       </div>
     </StyledHeader>
   );

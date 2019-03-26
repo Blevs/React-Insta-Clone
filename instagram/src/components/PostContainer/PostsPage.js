@@ -24,7 +24,9 @@ text-align: center;
 class PostsPage extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.username = props.username;
+    this.handleLogout = props.handleLogout;
     this.localStorageKey = "instaPostsPage";
     this.state = {
       posts: [],
@@ -100,7 +102,8 @@ class PostsPage extends React.Component {
       <div className="App">
         <SearchBar search={this.state.search}
                    handleInput={this.handleInput}
-                   handleSearch={this.handleSearchSubmit} />
+                   handleSearch={this.handleSearchSubmit}
+                   handleLogout={this.handleLogout} />
         <Posts>
           {filteredPosts.length === 0
            ? <NoMatches>Nothing matches your search:<br />'{this.state.filter}'</NoMatches>
