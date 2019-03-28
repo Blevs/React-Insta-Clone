@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompass, faHeart, faUser } from '@fortawesome/free-regular-svg-icons';
 import { faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { Link } from 'react-router-dom';
 
 const StyledHeader = styled.header`
 box-sizing: border-box;
@@ -82,8 +83,10 @@ const SearchBar = ({search, handleInput, handleSearch, handleLogout}) => {
   return (
     <StyledHeader>
       <div className="logo">
-        <FontAwesomeIcon icon={faInstagram} size="2x" />
-        <img alt="Instagram"/>
+        <Link to="/" style={{color: "black"}}>
+          <FontAwesomeIcon icon={faInstagram} size="2x" />
+          <img alt="Instagram"/>
+        </Link>
       </div>
       <form onSubmit={handleSearch} style={{position: "relative"}}>
         <StyledInput type="text"
