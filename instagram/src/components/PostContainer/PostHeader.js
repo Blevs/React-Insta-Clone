@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const HeaderDiv = styled.div`
 display: flex;
@@ -21,7 +22,9 @@ const PostHeader = ({username, thumbnailUrl}) => {
     return (
         <HeaderDiv>
           <ProfileImg src={thumbnailUrl} alt="" />
-          {username}
+          <Link to={"/" + username} style={{color: "black", textDecoration: "none"}}>
+            {username}
+          </Link>
         </HeaderDiv>
     );
 };
