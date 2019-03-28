@@ -116,7 +116,7 @@ class PostsPage extends React.Component {
                            : (new Fuse(this.state.posts, {keys: ['username']}))
                            .search(this.state.filter));
     return (
-      <div className="App">
+      <div>
         <SearchBar search={this.state.search}
                    handleInput={this.handleInput}
                    handleSearch={this.handleSearchSubmit}
