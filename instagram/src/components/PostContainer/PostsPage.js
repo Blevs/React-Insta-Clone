@@ -15,11 +15,6 @@ background: #fafafa;
 min-height: 90vh;
 `;
 
-const NoMatches = styled.h2`
-width: 100%;
-text-align: center;
-`;
-
 class PostsPage extends React.Component {
   constructor(props) {
     super(props);
