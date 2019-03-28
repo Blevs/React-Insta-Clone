@@ -22,7 +22,8 @@ const withAuthenticate = ProtectedComponent => LoginComponent => {
       this.localUsernameKey = "username";
       this.state = {
         loggedIn: false,
-        username: null
+        username: null,
+        loginError: null
       };
     }
     handleLogin = (event) => {
@@ -35,6 +36,8 @@ const withAuthenticate = ProtectedComponent => LoginComponent => {
           loggedIn: true,
           username: username
         });
+      } else {
+        this.setState({loginError: "Username or Password is invalid"});
       }
     };
     handleLogout = (event) => {
@@ -58,7 +61,7 @@ const withAuthenticate = ProtectedComponent => LoginComponent => {
                                    username={this.state.username}
                                    handleLogout={this.handleLogout} />;
       } else {
-        return <LoginComponent handleLogin={this.handleLogin}/>;
+        return <LoginComponent handleLogin={this.handleLogin} loginError={this.state.loginError}/>;
       }
     }
   };

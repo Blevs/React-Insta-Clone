@@ -2,12 +2,13 @@ import React from 'react';
 import { FullPageDiv, BoxDiv, UserForm, UserButton } from '../styles/';
 import { Link } from 'react-router-dom';
 
-const LoginPage = ({handleLogin}) => {
+const LoginPage = ({handleLogin, loginError}) => {
   return (
     <FullPageDiv>
       <BoxDiv>
         <h1>Log In</h1>
         <UserForm onSubmit={handleLogin}>
+          {loginError && <p style={{color: "red"}}>{loginError}</p>}
           <input type="text" name="username" placeholder="Username"/>
           <input type="password" name="password" placeholder="Password"/>
           <UserButton type="submit">Log In</UserButton>
