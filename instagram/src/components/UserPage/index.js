@@ -50,7 +50,7 @@ const UserPage = ({match}) => {
       {displayPost && <ModalDiv id="modalbg"
                                 onClick={event => event.target.id === "modalbg"
                                          && setDisplayPost(null)}>
-                        <PostContainer {...displayPost}/>
+                        <PostContainer post={displayPost}/>
                       </ModalDiv>}
       <SearchBar/>
       <ContentDiv>

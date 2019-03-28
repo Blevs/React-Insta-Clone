@@ -125,7 +125,7 @@ class PostsPage extends React.Component {
           {filteredPosts.length === 0
            ? <NoMatches>Nothing matches your search:<br />'{this.state.filter}'</NoMatches>
            : filteredPosts.map((post, idx) => (
-             <PostContainer {...post}
+             <PostContainer post={post}
                             key={post.id}
                             postidx={idx}
                             liked={this.state.likedMap[idx]}
