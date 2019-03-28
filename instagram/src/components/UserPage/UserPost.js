@@ -9,6 +9,7 @@ height: 200px;
 background: lightgrey;
 img {
   width: 100%;
+  min-height: 100%;
   object-fit: cover;
 }
 position: relative;
