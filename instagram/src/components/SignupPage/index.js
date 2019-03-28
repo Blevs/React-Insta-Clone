@@ -2,17 +2,19 @@ import React from 'react';
 import { FullPageDiv, BoxDiv, UserForm, UserButton } from '../styles/';
 import { Link } from 'react-router-dom';
 
-const LoginPage = ({handleLogin}) => {
+const SignupPage = ({handleLogin}) => {
   return (
     <FullPageDiv>
       <BoxDiv>
-        <h1>Log In</h1>
+        <h1>Sign Up</h1>
         <UserForm onSubmit={handleLogin}>
+          <p>Do not use a real password. This is not a real application.</p>
           <input type="text" name="username" placeholder="Username"/>
           <input type="password" name="password" placeholder="Password"/>
-          <UserButton type="submit">Log In</UserButton>
-          <Link style={{width: "100%"}} to="/signup">
-            <UserButton background="green">Sign Up</UserButton>
+          <input type="password" name="passwordVerify" placeholder="Verify Password"/>
+          <UserButton type="submit" background="green">Sign Up</UserButton>
+          <Link style={{width: "100%"}} to="/">
+            <UserButton>Log In</UserButton>
           </Link>
         </UserForm>
       </BoxDiv>
@@ -20,4 +22,4 @@ const LoginPage = ({handleLogin}) => {
   );
 };
 
-export default LoginPage;
+export default SignupPage;
