@@ -7,10 +7,11 @@ flex-flow: row wrap;
 justify-content: space-around;
 `;
 
-const UserPosts = ({posts}) => {
+const UserPosts = ({posts, setDisplayPost}) => {
   return (
     <PostsDiv>
-      {posts.map((post) => <UserPost post={post} />)}
+      {posts.map((post) => <UserPost post={post}
+                                     setDisplayPost={setDisplayPost}/>)}
     </PostsDiv>
   );
 };

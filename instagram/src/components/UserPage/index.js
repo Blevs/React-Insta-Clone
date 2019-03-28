@@ -4,6 +4,7 @@ import SearchBar from '../SearchBar';
 import styled from 'styled-components';
 import UserHeader from './UserHeader.js';
 import UserPosts from './UserPosts.js';
+import PostContainer from '../PostContainer';
 
 const getUserPosts = (username) => (
   (JSON.parse(window.localStorage.getItem('posts')) || postsData)
@@ -22,21 +23,40 @@ background: #fafafa;
 min-height: 90vh;
 `;
 
+const ModalDiv = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+background: #00000055;
+position: fixed;
+min-height: 100vh;
+min-width: 100vw;
+z-index: 100;
+cursor: pointer;
+* {
+  cursor: auto;
+}
+`;
+
 const UserPage = ({match}) => {
   const username = match.params.username;
   const [posts, setPosts] = useState([]);
+  const [displayPost, setDisplayPost] = useState(null);
   useEffect(() => {
     setPosts(getUserPosts(username));
   }, []);
   return (
     <div>
+      {displayPost && <ModalDiv onClick={() => setDisplayPost(null)}>
+                        <PostContainer {...displayPost}/>
+                      </ModalDiv>}
       <SearchBar/>
-    <ContentDiv>
-      <UserHeader username={username}
-                  picture={posts[0] && posts[0].thumbnailUrl}
-                  posts={posts.length}/>
-      <UserPosts posts={posts} />
-    </ContentDiv>
+      <ContentDiv>
+        <UserHeader username={username}
+                    picture={posts[0] && posts[0].thumbnailUrl}
+                    posts={posts.length}/>
+        <UserPosts posts={posts} setDisplayPost={setDisplayPost}/>
+      </ContentDiv>
     </div>
   );
 };
