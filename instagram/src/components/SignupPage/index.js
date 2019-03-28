@@ -3,12 +3,16 @@ import { FullPageDiv, BoxDiv, UserForm, UserButton } from '../styles/';
 import { Link } from 'react-router-dom';
 import { usersData } from '../../dummy-data.js';
 
+const invalidUsernames = ['login', 'signup', 'admin'];
+
 const attemptSignup = (username, password) => {
   const users = JSON.parse(window.localStorage.getItem("users")) || usersData;
   if (users.find(user => user.username === username)) {
     return "Username taken";
   } else if (password === "") {
     return "Invalid Password";
+  } else if (invalidUsernames.includes(username.toLowerCase())) {
+    return "Invalid Username";
   } else {
     users.push({username: username.toLowerCase(), password: password});
     window.localStorage.setItem("users", JSON.stringify(users));
