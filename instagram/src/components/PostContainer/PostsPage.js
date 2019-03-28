@@ -3,7 +3,7 @@ import SearchBar from '../SearchBar';
 import PostContainer from './PostContainer.js';
 import styled from 'styled-components';
 import Fuse from 'fuse.js';
-import { postsData } from '../../dummy-data.js';
+import { getPostsWithLiked } from '../../clientapi';
 
 const Posts = styled.div`
 display: flex;
@@ -29,7 +29,6 @@ class PostsPage extends React.Component {
     this.localStorageKey = "instaPostsPage";
     this.state = {
       posts: [],
-      likedMap: {},
       search: "",
       filter: ""
     };
@@ -39,32 +38,17 @@ class PostsPage extends React.Component {
     const commonState =
           JSON.parse(window.localStorage.getItem(this.localStorageKey))
           || {
-            posts: postsData,
             search: "",
             filter: ""
           };
     const likedMap = JSON.parse(window.localStorage.getItem(this.username + "LikedMap"))
           || {};
+    const posts = getPostsWithLiked(this.username);
     this.setState({
-      ...commonState,
+      posts: posts,
       likedMap: likedMap
     });
     // refresh and leave update local storage
-    window.addEventListener(
-      "beforeunload",
-      () => {
-        window.localStorage.setItem(this.username + "LikedMap",
-                                    JSON.stringify(this.state.likedMap));
-        window.localStorage.setItem(this.localStorageKey,
-                                    JSON.stringify({...this.state, likedMap: null}));
-      }
-    );
-  }
-  componentWillUnmount() {
-    window.localStorage.setItem(this.username + "LikedMap",
-                                JSON.stringify(this.state.likedMap));
-    window.localStorage.setItem(this.localStorageKey,
-                                JSON.stringify({...this.state, likedMap: null}));
   }
   handleInput = (event) => {
     this.setState({
@@ -77,37 +61,6 @@ class PostsPage extends React.Component {
       filter: prevState.search.trim()
     }));
   };
-  addComment = (event, postidx) => {
-    event.preventDefault();
-    const value = event.target.comment.value;
-    if (!value.match(/^\s*$/)) {
-      event.target.comment.value = "";
-      this.setState(({posts}) => {
-        posts[postidx].comments.push({
-          id: Date.now().toString(),
-          username: this.username,
-          text: value
-        });
-        return {posts: posts};
-      });
-    }
-  };
-  deleteComment = (postidx, commentidx) => {
-    this.setState(({posts}) => {
-      posts[postidx].comments.splice(commentidx, 1);
-      return {posts: posts};
-    });
-  }
-  handleLike = (postidx) => {
-    this.setState(({posts, likedMap}) => {
-      posts[postidx].likes += likedMap[postidx] ? -1 : 1;
-      likedMap[postidx] = !likedMap[postidx];
-      return {
-        posts: posts,
-        likedMap: likedMap
-      };
-    });
-  }
   render() {
     // const filteredPosts = this.state.posts
     //       .filter(post => post.username.toLowerCase().includes(this.state.filter.toLowerCase()));
@@ -128,7 +81,6 @@ class PostsPage extends React.Component {
              <PostContainer post={post}
                             key={post.id}
                             postidx={idx}
-                            liked={this.state.likedMap[idx]}
                             addComment={this.addComment}
                             handleLike={this.handleLike}
                             currentUser={this.username}

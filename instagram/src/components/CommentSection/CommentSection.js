@@ -70,7 +70,7 @@ svg.liked {
 `;
 
 const CommentSection = (
-  {comments, likes, liked, timestamp, postidx, addComment, handleLike, currentUser, deleteComment}
+  {comments, likes, liked, timestamp, postid, addComment, handleLike, currentUser, deleteComment}
 ) => {
   let commentInput = null;
   return (
@@ -79,7 +79,7 @@ const CommentSection = (
         <FontAwesomeIcon icon={liked ? faHeartSolid : faHeart}
                          className={liked ? "liked" : ""}
                          size="2x"
-                         onClick={() => handleLike(postidx)} />
+                         onClick={() => handleLike(postid)} />
         <FontAwesomeIcon icon={faComment}
                          size="2x"
                          onClick={() => commentInput && commentInput.focus()} />
@@ -90,15 +90,15 @@ const CommentSection = (
       {comments.map((comment, commentidx) => (
         <Comment {...comment}
                  key={comment.id}
-                 postidx={postidx}
-                 commentidx={commentidx}
+                 postid={postid}
+                 commentid={comment.id}
                  deleteComment={deleteComment}
                  currentUser={currentUser} />
       ))}
       <Time>
         {moment(timestamp, 'MMMM Do YYYY, HH:mm:ss a').fromNow()}
       </Time>
-      <form onSubmit={event => addComment(event, postidx)}>
+      <form onSubmit={event => addComment(event, postid)}>
         <CommentInput type="text"
                       name="comment"
                       ref={input => commentInput = input}
@@ -112,7 +112,7 @@ CommentSection.propTypes = {
   likes: PropTypes.number.isRequired,
   liked: PropTypes.bool,
   timestamp: PropTypes.string.isRequired,
-  postidx: PropTypes.number.isRequired,
+  postid: PropTypes.string.isRequired,
   currentUser: PropTypes.string,
   addComment: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,

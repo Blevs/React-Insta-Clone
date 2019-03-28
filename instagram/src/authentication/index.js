@@ -1,18 +1,8 @@
 import React from 'react';
-import { usersData } from '../dummy-data.js';
-
-const attemptLogin = (username, password) => {
-  const users = JSON.parse(window.localStorage.getItem("users")) || usersData;
-  const user = users.find(user => user.username === username.toLowerCase());
-  if (user && user.password === password) {
-    return true;
-  } else {
-    return false;
-  }
-};
+import { attemptLogin } from '../clientapi';
 
 const setUsernameCookie = username => window.localStorage.setItem("usernameCookie", JSON.stringify(username));
-const getUsernameCookie = username => JSON.parse(window.localStorage.getItem("usernameCookie"));
+const getUsernameCookie = () => JSON.parse(window.localStorage.getItem("usernameCookie"));
 
 const withAuthenticate = ProtectedComponent => LoginComponent => {
   return class extends React.Component {

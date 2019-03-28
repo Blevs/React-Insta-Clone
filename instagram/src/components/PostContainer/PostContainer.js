@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CommentSection from '../CommentSection';
 import PostHeader from './PostHeader.js';
 import Post from './Post.js';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { toggleLikePost, addComment as addCommentServer, deleteComment as deleteCommentServer } from '../../clientapi';
 
 const PostDiv = styled.div`
 box-sizing: border-box;
@@ -17,21 +18,53 @@ box-shadow: 0 0 3px lightgrey;
 margin: 50px 0;
 `;
 
-const PostContainer = ({post, postidx, liked, addComment, handleLike, currentUser, deleteComment}) => {
-  const {username, thumbnailUrl, imageUrl, likes, timestamp, comments} = post;
+const PostContainer = ({post, currentUser, history}) => {
+  const {username, thumbnailUrl, imageUrl, likes: likesInit, liked: likedInit, timestamp, comments: commentsInit, id: postid} = post;
+  const [likes, setLikes] = useState(likesInit);
+  const [liked, setLiked] = useState(likedInit);
+  const handleLike = () => {
+    if (currentUser === "" || !currentUser) {
+      return false;
+    }
+    setLikes(likes + (liked ? -1 : 1));
+    setLiked(!liked);
+    toggleLikePost(postid, currentUser);
+  };
+  const [comments, setComments] = useState(commentsInit);
+  const addComment = (event) => {
+    event.preventDefault();
+    if (currentUser === "" || !currentUser) {
+      return false;
+    }
+    const text = event.target.comment.value;
+    if (!text.match(/^\s*$/)) {
+      event.target.comment.value = "";
+      const commentid = addCommentServer(postid, currentUser, text);
+      setComments(comments.concat({id: commentid, username: currentUser, text: text}));
+    }
+  };
+  const deleteComment = (commentid) => {
+    const commentidx = comments.findIndex(({id}) => id === commentid);
+    if (commentidx >= 0) {
+      const newComments = [...comments];
+      newComments.splice(commentidx, 1);
+      setComments(newComments);
+      deleteCommentServer(postid, commentid);
+    }
+  };
   return (
     <PostDiv>
       <PostHeader username={username}
                   thumbnailUrl={thumbnailUrl}/>
       <Post imageUrl={imageUrl}
-            postidx={postidx}
+            postid={postid}
             liked={liked}
             handleLike={handleLike}/>
       <CommentSection comments={comments}
                       likes={likes}
                       liked={liked}
                       timestamp={timestamp}
-                      postidx={postidx}
+                      postid={postid}
                       addComment={addComment}
                       handleLike={handleLike}
                       currentUser={currentUser}
@@ -53,12 +86,7 @@ PostContainer.propTypes = {
       text: PropTypes.string.isRequired
     }))
   }).isRequired,
-  liked: PropTypes.bool,
   currentUser: PropTypes.string,
-  deleteComment: PropTypes.func.isRequired,
-  postidx: PropTypes.number.isRequired,
-  addComment: PropTypes.func.isRequired,
-  handleLike: PropTypes.func.isRequired,
 };
 
 export default PostContainer;

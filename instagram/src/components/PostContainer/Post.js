@@ -48,10 +48,10 @@ height: 100%;
 object-fit: cover;
 `;
 
-const Post = ({imageUrl, handleLike, postidx, liked}) => {
+const Post = ({imageUrl, handleLike, postid, liked}) => {
   return (
     <PostDiv className={liked ? "liked" : ""}
-      onDoubleClick={() => handleLike(postidx)}>
+      onDoubleClick={() => handleLike(postid)}>
       <PostImg src={imageUrl} alt="" />
     </PostDiv>
   );
@@ -61,7 +61,7 @@ Post.propTypes = {
   imageUrl: PropTypes.string.isRequired,
   handleLike: PropTypes.func.isRequired,
   liked: PropTypes.bool,
-  postidx: PropTypes.number.isRequired
+  postid: PropTypes.string.isRequired
 };
 
 export default Post;

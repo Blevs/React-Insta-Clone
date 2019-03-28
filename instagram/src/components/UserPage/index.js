@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { postsData } from '../../dummy-data.js';
 import SearchBar from '../SearchBar';
 import styled from 'styled-components';
 import UserHeader from './UserHeader.js';
 import UserPosts from './UserPosts.js';
 import PostContainer from '../PostContainer';
-
-const getUserPosts = (username) => (
-  (JSON.parse(window.localStorage.getItem('posts')) || postsData)
-    .map((post, idx) => ({...post, postidx: idx}))
-    .filter(post => post.username === username)
-);
+import { getUserPosts, getUserPostsWithLiked } from '../../clientapi';
 
 const ContentDiv = styled.div`
 display: flex;
@@ -38,19 +32,23 @@ cursor: pointer;
 }
 `;
 
+const getUsernameCookie = () => JSON.parse(window.localStorage.getItem("usernameCookie"));
+
 const UserPage = ({match}) => {
+  const currentUser = getUsernameCookie();
+  console.log(currentUser);
   const username = match.params.username;
   const [posts, setPosts] = useState([]);
   const [displayPost, setDisplayPost] = useState(null);
   useEffect(() => {
-    setPosts(getUserPosts(username));
+    setPosts(currentUser ? getUserPostsWithLiked(username, currentUser) : getUserPosts(username));
   }, []);
   return (
     <div>
       {displayPost && <ModalDiv id="modalbg"
                                 onClick={event => event.target.id === "modalbg"
                                          && setDisplayPost(null)}>
-                        <PostContainer post={displayPost}/>
+                        <PostContainer post={displayPost} currentUser={currentUser} />
                       </ModalDiv>}
       <SearchBar/>
       <ContentDiv>
