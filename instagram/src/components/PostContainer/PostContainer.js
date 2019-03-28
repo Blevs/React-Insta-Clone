@@ -5,6 +5,7 @@ import Post from './Post.js';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { toggleLikePost, addComment as addCommentServer, deleteComment as deleteCommentServer } from '../../clientapi';
+import { Redirect } from 'react-router-dom';
 
 const PostDiv = styled.div`
 box-sizing: border-box;
@@ -22,25 +23,28 @@ const PostContainer = ({post, currentUser, history}) => {
   const {username, thumbnailUrl, imageUrl, likes: likesInit, liked: likedInit, timestamp, comments: commentsInit, id: postid} = post;
   const [likes, setLikes] = useState(likesInit);
   const [liked, setLiked] = useState(likedInit);
+  const [redirect, setRedirect] = useState(false);
   const handleLike = () => {
     if (currentUser === "" || !currentUser) {
-      return false;
+      setRedirect(true);
+    } else {
+      setLikes(likes + (liked ? -1 : 1));
+      setLiked(!liked);
+      toggleLikePost(postid, currentUser);
     }
-    setLikes(likes + (liked ? -1 : 1));
-    setLiked(!liked);
-    toggleLikePost(postid, currentUser);
   };
   const [comments, setComments] = useState(commentsInit);
   const addComment = (event) => {
     event.preventDefault();
     if (currentUser === "" || !currentUser) {
-      return false;
-    }
-    const text = event.target.comment.value;
-    if (!text.match(/^\s*$/)) {
-      event.target.comment.value = "";
-      const commentid = addCommentServer(postid, currentUser, text);
-      setComments(comments.concat({id: commentid, username: currentUser, text: text}));
+      setRedirect(true);
+    } else {
+      const text = event.target.comment.value;
+      if (!text.match(/^\s*$/)) {
+        event.target.comment.value = "";
+        const commentid = addCommentServer(postid, currentUser, text);
+        setComments(comments.concat({id: commentid, username: currentUser, text: text}));
+      }
     }
   };
   const deleteComment = (commentid) => {
@@ -54,6 +58,7 @@ const PostContainer = ({post, currentUser, history}) => {
   };
   return (
     <PostDiv>
+      {redirect && <Redirect to="/" />}
       <PostHeader username={username}
                   thumbnailUrl={thumbnailUrl}/>
       <Post imageUrl={imageUrl}
