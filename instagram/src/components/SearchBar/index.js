@@ -127,7 +127,9 @@ const SearchBar = ({handleLogout}) => {
            &times;
          </Clear>}
         <div className="results">
-          {results.map(({username}, idx) => <Link key={idx} to={"/"+username}>{username}</Link>)}
+          {results.map(({username}, idx) => <Link key={idx}
+                                                  onClick={() => setSearch("")}
+                                                  to={"/"+username}>{username}</Link>)}
         </div>
       </form>
       <div className="nav-icons">
