@@ -31,7 +31,7 @@ h1 {
 }
 `;
 
-export const UserForm = styled.div`
+export const UserForm = styled.form`
 display: flex;
 flex-direction: column;
 align-items: center;
