@@ -11,6 +11,7 @@ const UserPosts = ({posts, setDisplayPost}) => {
   return (
     <PostsDiv>
       {posts.map((post) => <UserPost post={post}
+                                     key={post.postidx}
                                      setDisplayPost={setDisplayPost}/>)}
     </PostsDiv>
   );
