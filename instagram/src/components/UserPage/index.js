@@ -47,7 +47,9 @@ const UserPage = ({match}) => {
   }, []);
   return (
     <div>
-      {displayPost && <ModalDiv onClick={() => setDisplayPost(null)}>
+      {displayPost && <ModalDiv id="modalbg"
+                                onClick={event => event.target.id === "modalbg"
+                                         && setDisplayPost(null)}>
                         <PostContainer {...displayPost}/>
                       </ModalDiv>}
       <SearchBar/>
