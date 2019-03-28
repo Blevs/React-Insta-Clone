@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompass, faHeart, faUser } from '@fortawesome/free-regular-svg-icons';
 import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
+import { getPosts } from '../../clientapi';
+import Fuse from 'fuse.js';
 
 const StyledHeader = styled.header`
 box-sizing: border-box;
@@ -38,6 +40,22 @@ img {
   padding-right: 10px;
   margin-left: 0;
   border-right: 1px solid black;
+}
+.results {
+position: absolute;
+top: 100%;
+width: 100%;
+background: #fafafa
+a {
+color: black;
+display: block;
+text-align: center;
+padding: 10px;
+border: 1px solid grey;
+}
+a:link {
+text-decoration: none;
+}
 }
 `;
 
@@ -79,7 +97,16 @@ user-select: none;
 }
 `;
 
-const SearchBar = ({search, handleInput, handleSearch, handleLogout}) => {
+const SearchBar = ({handleLogout}) => {
+  const [usersWithPosts, setUsersWithPosts] = useState([]);
+  useEffect(() => {
+    setUsersWithPosts([...new Set(getPosts().map(post => ({username: post.username})))]);
+  });
+  const [search, setSearch] = useState("");
+  const [results, setResults] = useState([]);
+  useEffect(() => {
+    setResults((new Fuse(usersWithPosts, {keys: ['username']}).search(search)));
+  }, [search]);
   return (
     <StyledHeader>
       <div className="logo">
@@ -88,20 +115,20 @@ const SearchBar = ({search, handleInput, handleSearch, handleLogout}) => {
           <img alt="Instagram"/>
         </Link>
       </div>
-      <form onSubmit={handleSearch} style={{position: "relative"}}>
+      <form style={{position: "relative"}}>
         <StyledInput type="text"
                      name="search"
                      value={search}
-                     onChange={handleInput}
+                     onChange={event => setSearch(event.target.value)}
                      placeholder="Search" />
         {search !== ""
          &&
-         <Clear onClick={event => {
-           handleInput({...event, target: {value: "", name: "search"}});
-           handleSearch(event);
-         }}>
+         <Clear onClick={event => setSearch("")}>
            &times;
          </Clear>}
+        <div className="results">
+          {results.map(({username}, idx) => <Link key={idx} to={"/"+username}>{username}</Link>)}
+        </div>
       </form>
       <div className="nav-icons">
         <FontAwesomeIcon icon={faCompass} size="2x" />
@@ -112,14 +139,8 @@ const SearchBar = ({search, handleInput, handleSearch, handleLogout}) => {
   );
 };
 
-SearchBar.defaultProps = {
-  search: "",
-};
-
 SearchBar.propTypes = {
-  search: PropTypes.string.isRequired,
-  handleInput: PropTypes.func.isRequired,
-  handleSearch: PropTypes.func.isRequired
+  handleLogout: PropTypes.func.isRequired
 };
 
 export default SearchBar;

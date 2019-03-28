@@ -36,7 +36,6 @@ const getUsernameCookie = () => JSON.parse(window.localStorage.getItem("username
 
 const UserPage = ({match}) => {
   const currentUser = getUsernameCookie();
-  console.log(currentUser);
   const username = match.params.username;
   const [posts, setPosts] = useState([]);
   const [displayPost, setDisplayPost] = useState(null);
