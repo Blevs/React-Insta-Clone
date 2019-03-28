@@ -10,7 +10,7 @@ const attemptSignup = (username, password) => {
   } else if (password === "") {
     return "Invalid Password";
   } else {
-    users.push({username: username, password: password});
+    users.push({username: username.toLowerCase(), password: password});
     window.localStorage.setItem("users", JSON.stringify(users));
     return true;
   }

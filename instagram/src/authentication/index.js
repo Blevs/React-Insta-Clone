@@ -3,7 +3,7 @@ import { usersData } from '../dummy-data.js';
 
 const attemptLogin = (username, password) => {
   const users = JSON.parse(window.localStorage.getItem("users")) || usersData;
-  const user = users.find(user => user.username === username);
+  const user = users.find(user => user.username === username.toLowerCase());
   if (user && user.password === password) {
     return true;
   } else {
