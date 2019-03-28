@@ -3,7 +3,7 @@ import SearchBar from '../SearchBar';
 import PostContainer from './PostContainer.js';
 import styled from 'styled-components';
 import Fuse from 'fuse.js';
-import dummyData from '../../dummy-data.js';
+import { postsData } from '../../dummy-data.js';
 
 const Posts = styled.div`
 display: flex;
@@ -39,7 +39,7 @@ class PostsPage extends React.Component {
     const commonState =
           JSON.parse(window.localStorage.getItem(this.localStorageKey))
           || {
-            posts: dummyData,
+            posts: postsData,
             search: "",
             filter: ""
           };

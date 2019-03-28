@@ -1,4 +1,18 @@
 import React from 'react';
+import { usersData } from '../dummy-data.js';
+
+const attemptLogin = (username, password) => {
+  const users = JSON.parse(window.localStorage.getItem("users")) || usersData;
+  const user = users.find(user => user.username === username);
+  if (user && user.password === password) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const setUsernameCookie = username => window.localStorage.setItem("usernameCookie", JSON.stringify(username));
+const getUsernameCookie = username => JSON.parse(window.localStorage.getItem("usernameCookie"));
 
 const withAuthenticate = ProtectedComponent => LoginComponent => {
   return class extends React.Component {
@@ -14,9 +28,9 @@ const withAuthenticate = ProtectedComponent => LoginComponent => {
     handleLogin = (event) => {
       event.preventDefault();
       const username = event.target.username.value.trim();
-      // const password = event.target.password.value;
-      if (username !== "") {
-        window.localStorage.setItem(this.localUsernameKey, JSON.stringify(username));
+      const password = event.target.password.value;
+      if (attemptLogin(username, password)) {
+        setUsernameCookie(username);
         this.setState({
           loggedIn: true,
           username: username
@@ -25,14 +39,14 @@ const withAuthenticate = ProtectedComponent => LoginComponent => {
     };
     handleLogout = (event) => {
       event.preventDefault();
-        window.localStorage.setItem(this.localUsernameKey, JSON.stringify(null));
-        this.setState({
-          loggedIn: false,
-          username: null
-        });
+      setUsernameCookie(null);
+      this.setState({
+        loggedIn: false,
+        username: null
+      });
     };
     componentDidMount() {
-      const username = JSON.parse(window.localStorage.getItem(this.localUsernameKey));
+      const username = getUsernameCookie();
       this.setState({
         loggedIn: Boolean(username),
         username: username

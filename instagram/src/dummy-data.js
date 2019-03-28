@@ -1,4 +1,4 @@
-const dummyData = [
+const postsData = [
   {
     id: "a",
     username: "philzcoffee",
@@ -106,4 +106,8 @@ const dummyData = [
   }
 ];
 
-export default dummyData;
+const usersData = [
+  {username: "test", password: "123"}
+];
+
+export { postsData, usersData };
