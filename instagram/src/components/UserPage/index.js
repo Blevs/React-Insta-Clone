@@ -34,14 +34,14 @@ cursor: pointer;
 
 const getUsernameCookie = () => JSON.parse(window.localStorage.getItem("usernameCookie"));
 
-const UserPage = ({match}) => {
+const UserPage = (props) => {
   const currentUser = getUsernameCookie();
-  const username = match.params.username;
+  const username = props.match.params.username;
   const [posts, setPosts] = useState([]);
   const [displayPost, setDisplayPost] = useState(null);
   useEffect(() => {
     setPosts(currentUser ? getUserPostsWithLiked(username, currentUser) : getUserPosts(username));
-  }, []);
+  }, [props.match]);
   return (
     <div>
       {displayPost && <ModalDiv id="modalbg"
